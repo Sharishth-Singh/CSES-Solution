@@ -13,8 +13,9 @@
                 ||     ||
 */
 #include "bits/stdc++.h"
-#include <fstream>
+#include <cstring>
 #include <iostream>
+#include <memory>
 #include <vector>
 using namespace std;
 #define parr(x)                                                                 \
@@ -39,135 +40,50 @@ using namespace std;
 #define MOD 1000000007
 #define pi 3.1415926535
 #define ve vector
-int **memorized_dp_array;
+/* int static memorized_dp_array[1001][1001]; */
 int no_of_vertix = 0;
 int **adj_matrix;
 
 
-int n;
-int fun(int i,int j){
-    cout << i << ' ' << endl;
-    if(memorized_dp_array[i][j] != -1){
-        return memorized_dp_array[i][j];
-    }
-    if(i == n-1 && j == n-1){
-        return memorized_dp_array[i][j] = 1;
-    }
-    else{ if(adj_matrix[i][j+1] == 1 && i == n-1){
-        return memorized_dp_array[i][j] = fun(i, j+1);
-    }
-    else{
-        if(adj_matrix[i+1][j] == 1 && j == n-1){
-            return memorized_dp_array[i][j] = fun(i+1, j);
-        }
-        else{
-            if(adj_matrix[i][j+1] == 1 && adj_matrix[i+1][j] == 1)
+/* int ans = 0; */
+/* int an = 0; */
+int fun(int n,vector<int>dp){
+    dp[0] = 1;
+    /* if(dp[n] != -1){ ans += dp[n];return; } */
+    /* if(n == 0) {ans += 1;return; } */
+    /* if(n < 0) {ans += 0;return; } */
+    for(int j = 1;j<=n;j++)
+    {
+        for (int i = 1; i <=6; i++) {
+            if(j-i >= 0)
             {
-                return memorized_dp_array[i][j] = fun(i, j+1)+fun(i+1, j);
-            }
-            else{
-                if(adj_matrix[i][j+1] == 1){
-                    return memorized_dp_array[i][j] = fun(i, j+1);
-                }
-                else{
-                    if(adj_matrix[i+1][j] == 1)
-                    {
-                        return memorized_dp_array[i][j] = fun(i+1, j);
-                    }
-                    else{
-                        return memorized_dp_array[i][j] = 0;
-                    }
-                }
+                /* std::cout << n-i << " "<<n << " " << i << " "<< ans << endl; */
+                /* fun(n-i,dp); */
+                dp[j] += dp[j-i];
+                dp[j] = dp[j]%MOD;
             }
         }
     }
-    }
+    /* parr(dp); */
+    return dp[n];
 }
-
 
 
 void solution() {
-
-    memorized_dp_array = new int *[n];
-    for (int i = 0; i < n; i++) {
-        memorized_dp_array[i] = new int[n];
-    }
-    cout << "eu" << endl;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            memorized_dp_array[i][j] = -1;
-        }
-    }
-    std::cout << memorized_dp_array[0][0] << endl;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << memorized_dp_array[i][j] << " ";
-        }
-        cout << endl;
-    }
-    std::cout << "no" << endl;
-    /* cin >> n; */
-    /* adj_matrix = new int *[n]; */
-    /* for (int i = 0; i < n; i++) { */
-    /*     adj_matrix[i] = new int[n]; */
-    /* } */
-    /* for (int i = 0; i < n; i++) { */
-    /*     for (int j = 0; j < n; j++) { */
-    /*         char q; */
-    /*         cin >> q; */
-    /*         if(q == '.') */
-    /*             adj_matrix[i][j] = 1; */
-    /*         else */
-    /*             adj_matrix[i][j] = 0; */
-    /*     } */
-    /* } */
-
-    /* /1* for (int i = 0; i < n; i++) { *1/ */
-    /* /1*     for (int j = 0; j < n; j++) { *1/ */
-    /* /1*         cout << adj_matrix[i][j] << " "; *1/ */
-    /* /1*     } *1/ */
-    /* /1*     cout<< endl; *1/ */
-    /* /1* } *1/ */
-    /* std::cout << fun(0,0) << endl; */
+    int n;
+    cin >> n;
+    vector<int> dp(n+1);
+    int ans = fun(n,dp);
+        cout << ans << endl;
+    /* cout << an << endl; */
 }
-
-
 
 
 int32_t main() {
     fast;
-
-
-
-    /* memset(memorized_dp_array, -1, sizeof(memorized_dp_array)); */
-
-    /* uncomment below lines to nCk... */
-
-    /* F[0] = F[1] = 1; */
-    /* for(int i = 2;i <= 1000000;i++){ */
-    /*     F[i] = (F[i-1]*i)%MOD; */
-    /* } */
     int test_cases = 1;
-
-    /* phi_for_n_queryies(100000); */
-    /* cout << phi_array[5] << endl; */
-
     /* cin >> test_cases; */
-
-    /* seive(); // no. of prime till k */
-    /* seive_factor(); // prime factor of a number */
-
-    //  destination    <- adj_matrix
-    // s
-    // t
-    // a
-    // r
-    // t
-    /* int a = 1; */
     while (test_cases--) {
-        /* cout << "Case #"<< a << ": "; */
-        /* a++; */
         solution();
-
     }
 }
